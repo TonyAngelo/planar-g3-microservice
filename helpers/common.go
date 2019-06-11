@@ -13,7 +13,7 @@ import (
 
 func getConnection(address string) (*net.TCPConn, *nerr.E) {
 
-	radder, err := net.ResolveTCPAddr("tcp", address+":53595")
+	radder, err := net.ResolveTCPAddr("tcp", address+":57")
 	if err != nil {
 		return nil, nerr.Translate(err).Addf("error resolving address %v:", address)
 	}
