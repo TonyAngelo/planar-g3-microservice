@@ -15,9 +15,9 @@ func SetBlank(address string, blank, pooled bool) *nerr.E {
 
 	var command string
 	if blank {
-		command = fmt.Sprintf("blank \"on\"")
+		command = fmt.Sprintf("PATTERN=BLACK")
 	} else {
-		command = fmt.Sprintf("blank \"off\"")
+		command = fmt.Sprintf("PATTERN=NONE")
 	}
 
 	return sendCommand(command, address, pooled)
@@ -26,7 +26,7 @@ func SetBlank(address string, blank, pooled bool) *nerr.E {
 func GetBlankStatus(address string, pooled bool) (status.Blanked, *nerr.E) {
 	log.L.Infof("Querying blank status of %s", address)
 
-	response, err := queryState("blank ?", address, pooled)
+	response, err := queryState("PATTERN?", address, pooled)
 	if err != nil {
 		return status.Blanked{}, err
 	}
@@ -34,9 +34,9 @@ func GetBlankStatus(address string, pooled bool) (status.Blanked, *nerr.E) {
 	var status status.Blanked
 	resp := string(response)
 
-	if strings.Contains(resp, "on") {
+	if strings.Contains(resp, "PATTERN:BLACK") {
 		status.Blanked = true
-	} else if strings.Contains(resp, "off") {
+	} else if strings.Contains(resp, "PATTERN:NONE") {
 		status.Blanked = false
 	}
 

@@ -48,10 +48,10 @@ func sendCommand(command string, address string, pooled bool) *nerr.E {
 		return err.Addf("Couldn't issue command %v to %v", command, address)
 	}
 
-	_, err = readUntil('\n', conn, 3)
-	if err != nil {
-		return err.Addf(fmt.Sprintf("Error reading first response on connect %s", err.Error()), "protocol")
-	}
+	//_, err = readUntil('\r', conn, 3)
+	//if err != nil {
+	//	return err.Addf(fmt.Sprintf("Error reading first response on connect %s", err.Error()), "protocol")
+	//}
 
 	defer conn.Close()
 	return SendCommandWithConn(command, address, conn)
@@ -62,17 +62,17 @@ func SendCommandWithConn(command, address string, conn *net.TCPConn) *nerr.E {
 
 	log.L.Debugf("Sending command %s", command)
 
-	command = command + "\r\n"
+	command = command + "\r"
 	_, er := conn.Write([]byte(command))
 	if er != nil {
 		return nerr.Translate(er).Addf("Error sending command")
 	}
-	resp, err := readUntil('\n', conn, 10)
+	resp, err := readUntil('\r', conn, 10)
 	if err != nil {
 		return nerr.Translate(err)
 	}
 
-	if strings.Contains(string(resp), "ok") {
+	if strings.Contains(string(resp), ":") || strings.Contains(string(resp), "."){
 		log.L.Debugf("Command Acknowledged")
 		return nil
 	}
@@ -102,10 +102,10 @@ func queryState(command string, address string, pooled bool) ([]byte, *nerr.E) {
 		return []byte{}, nerr.Translate(err).Addf("Couldn't query state %v of %v", command, address)
 	}
 
-	_, err = readUntil('\n', connection, 3)
-	if err != nil {
-		return []byte{}, err.Addf(fmt.Sprintf("Error reading first response on connect %s", err.Error()), "protocol")
-	}
+	//_, err = readUntil('\r', connection, 3)
+	//if err != nil {
+	//	return []byte{}, err.Addf(fmt.Sprintf("Error reading first response on connect %s", err.Error()), "protocol")
+	//}
 	defer connection.Close()
 	return QueryStateWithConn(command, address, connection)
 
@@ -114,14 +114,14 @@ func queryState(command string, address string, pooled bool) ([]byte, *nerr.E) {
 func QueryStateWithConn(command, address string, conn *net.TCPConn) ([]byte, *nerr.E) {
 
 	log.L.Debugf("Sending command %s", command)
-	command = command + "\r\n"
+	command = command + "\r"
 
 	_, er := conn.Write([]byte(command))
 	if er != nil {
 		return []byte{}, nerr.Translate(er).Addf("Error sending command %s to %v", command, address)
 	}
 
-	resp, err := readUntil('\n', conn, 10)
+	resp, err := readUntil('\r', conn, 10)
 	if err != nil {
 		return []byte{}, err.Addf("Timed out on read for command %v", command)
 	}

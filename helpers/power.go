@@ -28,7 +28,7 @@ func GetPower(address string, pooled bool) (status.Power, *nerr.E) {
 
 	log.L.Infof("%s", color.HiCyanString("[helpers] querying power state of %v", address))
 
-	response, err := queryState("SYSTEM.STATE?", address, pooled)
+	response, err := queryState("SYSTEM.POWER?", address, pooled)
 	if err != nil {
 		return status.Power{}, err
 	}

@@ -1,6 +1,6 @@
 {
-    "name": "adcp-control-microservice",
-    "port": ":8012",
+    "name": "planar-g3-microservice",
+    "port": ":8099",
     "env-vars": [
         "BYPASS_AUTH",
         "ENDPOINT_ACCESS_KEY",

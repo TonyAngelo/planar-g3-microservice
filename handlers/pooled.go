@@ -4,16 +4,6 @@ import (
 	"github.com/labstack/echo"
 )
 
-// SetVolumePooled sets the volume when pooled
-func SetVolumePooled(context echo.Context) error {
-	return setVolume(context, true)
-}
-
-// SetVolume sets the volume
-func SetVolume(context echo.Context) error {
-	return setVolume(context, false)
-}
-
 // PowerOnPooled turns the power on when pooled
 func PowerOnPooled(context echo.Context) error {
 	return powerOn(context, true)
@@ -32,26 +22,6 @@ func PowerStandbyPooled(context echo.Context) error {
 // PowerStandby sets the power state to standby
 func PowerStandby(context echo.Context) error {
 	return powerStandby(context, false)
-}
-
-// MutePooled mutes the sound when pooled
-func MutePooled(context echo.Context) error {
-	return mute(context, true)
-}
-
-// Mute mutes the sound
-func Mute(context echo.Context) error {
-	return mute(context, false)
-}
-
-// UnMutePooled unmutes the sound when pooled
-func UnMutePooled(context echo.Context) error {
-	return unMute(context, true)
-}
-
-// UnMute unmutes the sound
-func UnMute(context echo.Context) error {
-	return unMute(context, false)
 }
 
 // DisplayBlankPooled blanks the display when pooled
@@ -82,26 +52,6 @@ func SetInputPortPooled(context echo.Context) error {
 // SetInputPort sets the input port
 func SetInputPort(context echo.Context) error {
 	return setInputPort(context, false)
-}
-
-// VolumeLevelPooled gets the volume level when pooled
-func VolumeLevelPooled(context echo.Context) error {
-	return volumeLevel(context, true)
-}
-
-// VolumeLevel gets the volume level
-func VolumeLevel(context echo.Context) error {
-	return volumeLevel(context, false)
-}
-
-// MuteStatusPooled checks if the sound is muted when pooled
-func MuteStatusPooled(context echo.Context) error {
-	return muteStatus(context, true)
-}
-
-// MuteStatus checks if the sound is muted
-func MuteStatus(context echo.Context) error {
-	return muteStatus(context, false)
 }
 
 // PowerStatusPooled checks the power status when pooled
